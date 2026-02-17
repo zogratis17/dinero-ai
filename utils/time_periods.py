@@ -15,11 +15,28 @@ def segment_by_period(df: pd.DataFrame, period: str = 'month') -> Dict[str, pd.D
     Segment ledger data by time period.
     
     Args:
-        df: DataFrame with 'date' column
-        period: 'day', 'week', 'month', or 'year'
+        df: DataFrame with 'date' column (will be converted to datetime)
+        period: Time period for segmentation. Options:
+            - 'day': Segment by individual days
+            - 'week': Segment by weeks
+            - 'month': Segment by months (default)
+            - 'year': Segment by years
         
     Returns:
-        Dictionary mapping period labels to DataFrames
+        Dictionary mapping period labels to DataFrames.
+        Period labels format:
+            - day: 'YYYY-MM-DD' (e.g., '2026-02-15')
+            - week: 'YYYY-WNN' (e.g., '2026-W07')
+            - month: 'YYYY-MM' (e.g., '2026-02')
+            - year: 'YYYY' (e.g., '2026')
+        
+    Raises:
+        ValueError: If invalid period type is provided
+        
+    Example:
+        >>> monthly_data = segment_by_period(df, 'month')
+        >>> for month, month_df in monthly_data.items():
+        ...     print(f"{month}: {len(month_df)} transactions")
     """
     if df.empty or 'date' not in df.columns:
         return {}

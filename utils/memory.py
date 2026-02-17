@@ -17,7 +17,11 @@ def ensure_memory_dir() -> bool:
     Ensure the memory directory exists.
     
     Returns:
-        True if directory exists or was created successfully
+        True if directory exists or was created successfully, False otherwise
+        
+    Note:
+        Creates the directory with proper permissions if it doesn't exist.
+        Logs any errors that occur during creation.
     """
     try:
         if not os.path.exists(MEMORY_DIR):
@@ -61,10 +65,20 @@ def save_memory(entry: Dict[str, Any]) -> bool:
     Save a financial entry to persistent storage.
     
     Args:
-        entry: Dictionary containing month's financial data
+        entry: Dictionary containing month's financial data.
+               Should include 'month' key for identifying the entry.
         
     Returns:
-        True if save was successful
+        True if save was successful, False otherwise
+        
+    Note:
+        - Automatically adds timestamp if not present
+        - Updates existing entry if month already exists (prevents duplicates)
+        - Creates memory directory if it doesn't exist
+        
+    Example:
+        >>> entry = {'month': '2026-02', 'revenue': 100000, 'profit': 25000}
+        >>> success = save_memory(entry)
     """
     try:
         # Ensure directory exists

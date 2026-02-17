@@ -19,8 +19,20 @@ DAILY_DIR = os.path.join(MEMORY_DIR, "daily")
 YEARLY_DIR = os.path.join(MEMORY_DIR, "yearly")
 
 
-def ensure_memory_dirs():
-    """Create all memory directories if they don't exist."""
+def ensure_memory_dirs() -> None:
+    """Create all memory directories if they don't exist.
+    
+    Creates the following directory structure:
+    - memory/                (main directory)
+    - memory/monthly/        (monthly aggregated data)
+    - memory/weekly/         (weekly aggregated data)
+    - memory/daily/          (daily transaction data)
+    - memory/yearly/         (yearly summaries)
+    
+    Note:
+        Uses Path.mkdir with parents=True to create nested directories.
+        Silently succeeds if directories already exist (exist_ok=True).
+    """
     for directory in [MEMORY_DIR, MONTHLY_DIR, WEEKLY_DIR, DAILY_DIR, YEARLY_DIR]:
         Path(directory).mkdir(parents=True, exist_ok=True)
 

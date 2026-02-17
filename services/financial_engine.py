@@ -14,7 +14,17 @@ def calculate_financials(df: pd.DataFrame) -> Dict[str, Any]:
         df: Ledger DataFrame with columns: type, amount, status, client
         
     Returns:
-        Dictionary containing all financial metrics
+        Dictionary containing all financial metrics:
+        - revenue: Total income
+        - expenses: Total expenses
+        - profit: Net profit (revenue - expenses)
+        - receivables: Outstanding unpaid income
+        - top_client_share: Percentage of revenue from top client
+        - profit_margin: Profit as percentage of revenue
+        - receivables_ratio: Receivables as percentage of revenue
+    
+    Raises:
+        KeyError: If required columns are missing from DataFrame
     """
     # Revenue calculations
     income_df = df[df["type"] == "income"]

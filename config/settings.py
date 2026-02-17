@@ -5,8 +5,17 @@ Centralizes all configurable parameters for easy maintenance.
 import os
 from dotenv import load_dotenv
 
-# Load environment variables
+# Load environment variables from .env file
 load_dotenv()
+
+# Validate critical configuration
+if not os.getenv("GEMINI_API_KEY") and os.getenv("USE_OLLAMA", "false").lower() != "true":
+    import warnings
+    warnings.warn(
+        "GEMINI_API_KEY not found in environment. AI features will be unavailable. "
+        "Please add GEMINI_API_KEY to your .env file or set USE_OLLAMA=true.",
+        UserWarning
+    )
 
 # ----------------------------
 # Feature Flags

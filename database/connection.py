@@ -32,12 +32,16 @@ class DatabaseConnection:
     _session_factory: Optional[sessionmaker] = None
     
     @classmethod
-    def initialize(cls, url: Optional[str] = None):
+    def initialize(cls, url: Optional[str] = None) -> None:
         """
         Initialize database connection.
         
         Args:
             url: Database URL (uses config if not provided)
+            
+        Raises:
+            ValueError: If database URL is not configured
+            Exception: If database connection fails
         """
         if not USE_DATABASE:
             logger.info("Database mode disabled. Using JSON storage.")
@@ -50,7 +54,10 @@ class DatabaseConnection:
         connection_url = url or DATABASE_URL
         
         if not connection_url:
-            raise ValueError("DATABASE_URL not configured")
+            raise ValueError(
+                "DATABASE_URL not configured. Please set DATABASE_URL in your .env file. "
+                "Example: DATABASE_URL=postgresql://user:pass@localhost:5432/dinero_ai"
+            )
         
         try:
             # Create engine with connection pooling
@@ -103,7 +110,15 @@ class DatabaseConnection:
     
     @classmethod
     def get_engine(cls) -> Engine:
-        """Get database engine"""
+        """
+        Get database engine.
+        
+        Returns:
+            SQLAlchemy Engine instance
+            
+        Raises:
+            RuntimeError: If engine is not initialized
+        """
         if cls._engine is None:
             cls.initialize()
         return cls._engine

@@ -4,7 +4,7 @@ Handles user queries about financial data with proper security measures.
 """
 import re
 import logging
-from typing import Optional,Tuple
+from typing import Optional, Tuple, List, Dict, Any
 from services.ai_agent import AIAgentError
 
 logger = logging.getLogger(__name__)
@@ -15,10 +15,14 @@ class FinancialChatbot:
     Secure financial chatbot with guardrails and prompt injection prevention.
     """
     
-    def __init__(self, agent):
-        """Initialize chatbot with AI agent."""
+    def __init__(self, agent) -> None:
+        """Initialize chatbot with AI agent.
+        
+        Args:
+            agent: DineroAgent instance for AI interactions
+        """
         self.agent = agent
-        self.conversation_history = []
+        self.conversation_history: List[Dict[str, str]] = []
         
         # Guardrail keywords - questions must be finance-related
         self.finance_keywords = [
@@ -198,10 +202,14 @@ Provide a helpful, specific answer based ONLY on the financial data above. Refer
             logger.error(f"Unexpected chatbot error: {str(e)}")
             return "An error occurred. Please try rephrasing your question."
     
-    def get_conversation_history(self) -> list:
-        """Get recent conversation history."""
+    def get_conversation_history(self) -> List[Dict[str, str]]:
+        """Get recent conversation history.
+        
+        Returns:
+            List of conversation dictionaries with 'question' and 'answer' keys
+        """
         return self.conversation_history
     
-    def clear_history(self):
+    def clear_history(self) -> None:
         """Clear conversation history."""
         self.conversation_history = []

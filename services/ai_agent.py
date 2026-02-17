@@ -31,10 +31,14 @@ class DineroAgent:
     Implements guardrails, validation, and responsible AI practices.
     """
     
-    def __init__(self):
-        """Initialize the AI agent with configuration."""
+    def __init__(self) -> None:
+        """Initialize the AI agent with configuration.
+        
+        Raises:
+            AIAgentError: If GEMINI_API_KEY is not configured
+        """
         if not GEMINI_API_KEY:
-            raise AIAgentError("GEMINI_API_KEY not found in environment variables")
+            raise AIAgentError("GEMINI_API_KEY not found in environment variables. Please set it in .env file.")
         
         genai.configure(api_key=GEMINI_API_KEY)
         self.model = genai.GenerativeModel(GEMINI_MODEL)

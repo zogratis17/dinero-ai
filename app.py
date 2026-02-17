@@ -411,16 +411,6 @@ def main():
             # TAB 4: GST ANALYSIS
             # ----------------------------
             with tab4:
-                                                st.code(email, language=None)
-                                            except Exception as e:
-                                                st.error(f"Generation failed: {str(e)}")
-                    else:
-                        st.info("Review your dashboard metrics, then click above to run AI-powered financial analysis.")
-            
-            # ----------------------------
-            # TAB 4: GST ANALYSIS (already defined above)
-            # ----------------------------
-            # (Content added in with tab4 block above)
                 gst_df = df[df["type"] == "expense"]
                 
                 st.subheader("🧾 GST Classification (India)")

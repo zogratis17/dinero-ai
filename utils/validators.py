@@ -22,6 +22,11 @@ def validate_csv_structure(df: pd.DataFrame) -> Tuple[bool, List[str]]:
         
     Returns:
         Tuple of (is_valid, list of error messages)
+    
+    Example:
+        >>> is_valid, errors = validate_csv_structure(df)
+        >>> if not is_valid:
+        ...     print("Validation errors:", errors)
     """
     errors = []
     
@@ -78,14 +83,27 @@ def validate_data_types(df: pd.DataFrame) -> Tuple[bool, List[str]]:
 
 def sanitize_text_input(text: str, max_length: int = 500) -> str:
     """
-    Sanitize text input to prevent injection attacks.
+    Sanitize text input to prevent injection attacks and security issues.
     
     Args:
-        text: Raw input text
-        max_length: Maximum allowed length
+        text: Raw input text to be sanitized
+        max_length: Maximum allowed length (default: 500 characters)
         
     Returns:
-        Sanitized text
+        Sanitized text with dangerous content removed
+        
+    Security measures applied:
+        - Truncates to max_length
+        - Removes HTML/XML tags
+        - Removes JavaScript protocol handlers
+        - Removes HTML event handlers (onclick, onerror, etc.)
+        - Removes potentially dangerous special characters
+        
+    Example:
+        >>> sanitize_text_input('<script>alert("xss")</script>Hello')
+        'Hello'
+        >>> sanitize_text_input('javascript:void(0)')
+        'void(0)'
     """
     if not text:
         return ""
