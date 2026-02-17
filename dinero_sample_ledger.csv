@@ -1,0 +1,41 @@
+date,client,description,amount,type,status
+2026-01-01,UrbanBuild Co,Website Development Project,25971,income,paid
+2026-01-02,TechNova Solutions,E-commerce Platform Setup,108316,income,paid
+2026-01-03,TechNova Solutions,Website Development Project,98253,income,paid
+2026-01-04,FinEdge Consulting,AI Consulting Services,51738,income,paid
+2026-01-05,UrbanBuild Co,Website Development Project,102184,income,unpaid
+2026-01-06,TechNova Solutions,E-commerce Platform Setup,118215,income,paid
+2026-01-07,ABC Corp,AI Consulting Services,54101,income,unpaid
+2026-01-08,UrbanBuild Co,E-commerce Platform Setup,88476,income,unpaid
+2026-01-09,DEF Industries,E-commerce Platform Setup,37197,income,paid
+2026-01-10,FinEdge Consulting,AI Consulting Services,74880,income,paid
+2026-01-11,TechNova Solutions,Cloud Migration Service,85789,income,unpaid
+2026-01-12,ABC Corp,Website Development Project,81683,income,unpaid
+2026-01-13,FinEdge Consulting,Website Development Project,117926,income,unpaid
+2026-01-14,FinEdge Consulting,Annual Maintenance Contract,59369,income,paid
+2026-01-15,GreenLeaf Pvt Ltd,Annual Maintenance Contract,60301,income,paid
+2026-01-16,TechNova Solutions,Mobile App Development,36337,income,unpaid
+2026-01-17,ABC Corp,Cloud Migration Service,63735,income,paid
+2026-01-18,ABC Corp,Website Development Project,79050,income,unpaid
+2026-01-19,DEF Industries,Website Development Project,45091,income,paid
+2026-01-20,TechNova Solutions,Cloud Migration Service,98981,income,unpaid
+2026-01-21,Indian Railways,Office Supplies,38680,expense,paid
+2026-01-22,WeWork,Office Rent,37514,expense,paid
+2026-01-23,AWS,Cloud Subscription,37624,expense,paid
+2026-01-24,AWS,Office Supplies,10667,expense,paid
+2026-01-25,Tata Power,Team Lunch,23230,expense,paid
+2026-01-26,Swiggy Corporate,Business Travel,20976,expense,paid
+2026-01-27,WeWork,Cloud Subscription,2194,expense,paid
+2026-01-28,Office Depot,Team Lunch,38833,expense,paid
+2026-01-29,Airtel Business,Internet Charges,6089,expense,paid
+2026-01-30,Google Cloud,Internet Charges,8576,expense,paid
+2026-01-31,Airtel Business,Business Travel,26023,expense,paid
+2026-02-01,Office Depot,Office Rent,28617,expense,paid
+2026-02-02,Airtel Business,Office Rent,21531,expense,paid
+2026-02-03,Google Cloud,Team Lunch,25742,expense,paid
+2026-02-04,Swiggy Corporate,Cloud Subscription,33679,expense,paid
+2026-02-05,Indian Railways,Team Lunch,16388,expense,paid
+2026-02-06,Tata Power,Business Travel,3870,expense,paid
+2026-02-07,Google Cloud,Team Lunch,21414,expense,paid
+2026-02-08,Office Depot,Office Supplies,15450,expense,paid
+2026-02-09,Tata Power,Cloud Subscription,25615,expense,paid
