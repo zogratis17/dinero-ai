@@ -9,7 +9,7 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue.svg)](https://postgresql.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-[Features](#features) • [Architecture](#architecture) • [Setup](#setup) • [Database](#database-integration-postgresql)
+[Features](#-features) • [Architecture](#%EF%B8%8F-architecture) • [Setup](#-setup) • [Database](#%EF%B8%8F-database-integration-postgresql)
 
 </div>
 
