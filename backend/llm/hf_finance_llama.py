@@ -7,18 +7,14 @@ import logging
 logger = logging.getLogger(__name__)
 
 HF_API_TOKEN = os.getenv("HF_API_TOKEN")
-MODEL_ID = "instruction-pretrain/finance-Llama3-8B"
-API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
+# Using zai-org/GLM-5 as a reliable substitute for the discontinued finance-Llama3-8B model
+MODEL_ID = "zai-org/GLM-5" 
+API_URL = "https://router.huggingface.co/v1/chat/completions"
 
 def generate_response(prompt: str) -> str:
     """
-    Generate a response from the Finance Llama3 8B model via Hugging Face Inference API.
-    
-    Args:
-        prompt (str): The user's input prompt.
-        
-    Returns:
-        str: The generated text response or an error message.
+    Generate a response using HF Router API (OpenAI compatible).
+    Currently uses GLM-5 as a stable backend.
     """
     if not HF_API_TOKEN:
         logger.error("HF_API_TOKEN environment variable is missing.")
@@ -29,13 +25,15 @@ def generate_response(prompt: str) -> str:
         "Content-Type": "application/json"
     }
     
+    # OpenAI Chat Completion Format
     payload = {
-        "inputs": prompt,
-        "parameters": {
-            "max_new_tokens": 512,
-            "temperature": 0.7,
-            "return_full_text": False
-        }
+        "model": MODEL_ID,
+        "messages": [
+            {"role": "system", "content": "You are a helpful financial assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        "max_tokens": 512,
+        "temperature": 0.7
     }
     
     try:
@@ -47,11 +45,9 @@ def generate_response(prompt: str) -> str:
             
         result = response.json()
         
-        # Safely extract text from response list or dict
-        if isinstance(result, list) and len(result) > 0 and isinstance(result[0], dict):
-            return result[0].get("generated_text", str(result))
-        elif isinstance(result, dict) and "generated_text" in result:
-            return result.get("generated_text", str(result))
+        # Parse OpenAI format
+        if "choices" in result and len(result["choices"]) > 0:
+            return result["choices"][0]["message"]["content"]
             
         return str(result)
         
