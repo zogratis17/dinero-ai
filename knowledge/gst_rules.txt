@@ -1,0 +1,285 @@
+# 📜 GST Knowledge Base — AI-Readable GST Rules for Indian SMBs
+
+## 1. GST Structure
+
+India follows a dual GST model:
+
+* **CGST** – Central Goods & Services Tax
+* **SGST** – State GST (intra-state transactions)
+* **IGST** – Inter-state transactions
+* **UTGST** – Union Territories (if applicable)
+
+Rule:
+If supplier and buyer are in same state → CGST + SGST
+If different states → IGST applies.
+
+---
+
+## 2. GST Registration Threshold (SMBs)
+
+Businesses must register if turnover exceeds:
+
+* ₹40 Lakhs → Goods (most states)
+* ₹20 Lakhs → Services
+* ₹10 Lakhs → Special category states
+
+Agent Insight:
+If revenue approaches threshold → alert for registration compliance.
+
+---
+
+## 3. Standard GST Rates
+
+| Category                | Rate |
+| ----------------------- | ---- |
+| Essential goods         | 5%   |
+| Standard goods/services | 12%  |
+| Most services/software  | 18%  |
+| Luxury/sin goods        | 28%  |
+
+For SMB SaaS, consulting, cloud → assume **18% GST**.
+
+---
+
+## 4. Input Tax Credit (ITC) — Core Concept
+
+Businesses can claim credit for GST paid on business purchases **only if used for business purposes**.
+
+ITC reduces final tax liability:
+
+Output GST – Input GST = Net Payable
+
+Agent Task:
+Identify which expenses qualify for ITC.
+
+---
+
+## 5. ITC Eligible Expenses (Common SMB Cases)
+
+Allowed ITC if used for business:
+
+* Cloud services (AWS, Azure, SaaS)
+* Professional services (legal, accounting, consulting)
+* Office rent (commercial property)
+* Internet, electricity (business use)
+* Software subscriptions
+* Equipment purchases (computers, furniture, machinery)
+* Marketing services
+* Consultancy fees
+* Hotel accommodation (business travel)
+* Maintenance & repair services
+* Freight & logistics
+* Professional training
+* Business insurance (property, liability)
+* Job portal subscriptions
+* Telecommunication services
+
+---
+
+## 6. Blocked Credit (ITC Not Allowed) — Important
+
+ITC **cannot be claimed** on:
+
+* Food & beverages (employee meals, restaurants, catering)
+* Personal expenses
+* Motor vehicles (unless logistics/taxi business)
+* Travel benefits for employees
+* Club memberships
+* Health & life insurance for employees
+* Goods/services used for personal consumption
+* Outdoor catering services
+* Health & fitness services
+* Rent-a-cab services (unless specific business use)
+
+Agent must flag these as:
+"Non-creditable GST expense."
+
+---
+
+## 7. Invoice Requirements for ITC Claim
+
+To claim ITC, invoice must contain:
+
+* GSTIN of supplier
+* Invoice number and date
+* Tax amount shown separately
+* Business name as recipient
+
+If missing → ITC risk.
+
+Agent Insight:
+Flag incomplete documentation.
+
+---
+
+## 8. GST Filing Requirements
+
+Regular taxpayers must file:
+
+* **GSTR-1** → Sales report
+* **GSTR-3B** → Monthly summary return
+
+Late filing causes penalties + interest.
+
+Agent should warn if:
+Revenue exists but no tax provision detected.
+
+---
+
+## 9. Composition Scheme (Small Businesses)
+
+If turnover < ₹1.5 Cr, business may opt for Composition Scheme:
+
+* Lower tax rate (1%–6%)
+* Cannot claim ITC
+* Cannot issue tax invoices
+
+Agent Insight:
+If business uses composition → disable ITC suggestions.
+
+---
+
+## 10. Reverse Charge Mechanism (RCM)
+
+In certain cases, buyer must pay GST instead of seller.
+
+Common triggers:
+
+* Legal services (from individual advocates)
+* Import of services
+* Unregistered vendor purchases
+* GTA (Goods Transport Agency) services
+* Security services (manpower supply)
+* Sponsorship services
+
+Agent should flag unusual vendor cases.
+
+---
+
+## 11. Place of Supply Rules (Simplified for MVP)
+
+Service supplied across states → IGST applies.
+
+Digital services follow recipient location.
+
+---
+
+## 12. GST Compliance Risks SMBs Commonly Miss
+
+Agent should detect:
+
+* Claiming ITC on blocked categories
+* Not reconciling receivables with GST payable
+* Revenue booked without tax provision
+* Vendor GSTIN missing
+* High expenses but low ITC utilization
+* 180-day payment rule violation (ITC reversal needed)
+* Mixing personal and business expenses
+
+---
+
+## 13. Heuristic Rules for AI Agent
+
+If expense_category in [cloud, software, rent, utilities, professional_services]:
+    mark ITC_ELIGIBLE
+
+If expense_category in [meals, food, catering, health_insurance, club]:
+    mark ITC_BLOCKED
+
+If expense_category in [business_travel, hotel]:
+    mark ITC_ELIGIBLE
+
+If expense_category in [motor_vehicle] and not logistics_business:
+    mark ITC_BLOCKED
+
+If receivables high but GST payable unpaid:
+    flag CASHFLOW_GST_RISK
+
+If revenue growing but no ITC claimed:
+    flag TAX_OPTIMIZATION_OPPORTUNITY
+
+If expenses show blocked_credit > 20% of total:
+    flag POTENTIAL_SAVINGS_OPPORTUNITY
+
+---
+
+## 14. Output Language Guidelines for AI
+
+When advising user:
+
+* Do not give legal conclusions
+* Provide operational suggestions
+* Recommend consulting GST professional for filing
+* Focus on bookkeeping classification and visibility
+* Highlight ITC opportunities
+* Flag compliance risks
+* Suggest documentation improvements
+
+---
+
+## 15. Common Expense Classifications
+
+**Software/Cloud (18% GST, ITC Eligible):**
+AWS, Azure, GCP, SaaS, hosting, domain, GitHub, Zoho, Microsoft 365, Adobe, Slack, Atlassian
+
+**Professional Services (18% GST, ITC Eligible):**
+Legal fees, CA services, consulting, audit, tax advisory, freelancer services (development, design, content)
+
+**Office Rent (18% GST, ITC Eligible):**
+Commercial property rent, co-working space, warehouse
+
+**Utilities (18% GST, ITC Eligible):**
+Electricity (commercial), internet, broadband, telephone, mobile
+
+**Travel - Eligible (5% GST, ITC Eligible):**
+Hotel accommodation, business flight/train tickets
+
+**Travel - Blocked (No ITC):**
+Taxi/cab (Uber, Ola), personal vehicle expenses
+
+**Food - Blocked (No ITC):**
+Restaurant bills, Swiggy, Zomato, catering, team meals, client dinners
+
+**Capital Goods (18% GST, ITC Eligible):**
+Laptops, computers, monitors, furniture, printers, machinery, equipment
+
+**Maintenance (18% GST, ITC Eligible):**
+Cleaning services, repairs, AMC, pest control
+
+**Marketing (18% GST, ITC Eligible):**
+Advertising, digital marketing, branding, promotional materials
+
+**Banking (18% GST on some, Often Exempt):**
+Payment gateway fees (ITC Eligible), bank charges (often exempt)
+
+---
+
+## 16. ITC Health Score Calculation
+
+Total Eligible ITC Amount / Total Expense
+Good: > 60%
+Moderate: 40-60%
+Review Needed: < 40%
+
+Agent should calculate and report this score.
+
+---
+
+## 17. Risk Flags
+
+**High Risk:**
+- Claiming ITC on food/meals
+- Missing vendor GSTIN on large purchases
+- Revenue without GST provision
+
+**Medium Risk:**
+- High receivables ratio (>30% of revenue)
+- Low ITC utilization despite eligible expenses
+- Unclear expense descriptions
+
+**Low Risk:**
+- Well-documented transactions
+- Clear business purpose
+- Proper invoice compliance
+
+---

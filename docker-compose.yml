@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: dinero-postgres
+    environment:
+      POSTGRES_DB: dinero_ai
+      POSTGRES_USER: dinero_user
+      POSTGRES_PASSWORD: dinero_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dinero_user -d dinero_ai"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Dinero AI Application
+  dinero-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dinero-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8501:8501"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - USE_DATABASE=true
+      - DATABASE_URL=postgresql://dinero_user:dinero_pass@postgres:5432/dinero_ai
+      - DB_POOL_SIZE=5
+      - DB_MAX_OVERFLOW=10
+    volumes:
+      - ./memory:/app/memory
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local

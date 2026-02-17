@@ -1,0 +1,44 @@
+# Dinero AI - AI Finance Agent for SMBs
+# Python Dependencies
+
+# Web Framework
+streamlit>=1.28.0
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Visualization
+plotly>=5.18.0
+matplotlib>=3.7.0
+kaleido>=0.2.1
+
+# PDF Generation
+reportlab>=4.0.0
+pillow>=10.0.0
+
+# AI/LLM
+google-generativeai>=0.3.0
+
+# Gmail Integration
+google-auth>=2.16.0
+google-auth-oauthlib>=1.0.0
+google-auth-httplib2>=0.1.0
+google-api-python-client>=2.80.0
+
+# Database (PostgreSQL)
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.9
+alembic>=1.12.0
+
+# Environment Management
+python-dotenv>=1.0.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Code Quality (Development)
+# black>=23.0.0
+# flake8>=6.0.0
+# mypy>=1.0.0
