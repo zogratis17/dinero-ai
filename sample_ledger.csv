@@ -133,3 +133,127 @@ date,client,description,amount,type,status
 2026-03-30,Legal Associates,Contract Drafting,15000,expense,paid
 2026-03-31,Cybersafe India,Security Audit,45000,expense,paid
 2026-03-31,Backup Solutions,Data Backup Service,12000,expense,paid
+2026-04-01,RetailMax Solutions,POS System Development,195000,income,paid
+2026-04-02,FinanceHub,Investment Platform,275000,income,paid
+2026-04-03,AgriTech Ventures,Farm Management System,145000,income,unpaid
+2026-04-04,EduLearn Platform,Student Portal Development,165000,income,paid
+2026-04-05,HealthCare Plus,Telemedicine App,235000,income,paid
+2026-04-06,RealEstate Pro,Property Management System,185000,income,unpaid
+2026-04-07,LogiTrack,Shipment Tracking System,125000,income,paid
+2026-04-08,SocialBuzz,Social Media Analytics,95000,income,paid
+2026-04-09,GameStudio,Mobile Gaming Backend,215000,income,paid
+2026-04-10,AWS,AWS Cloud Subscription - April,14000,expense,paid
+2026-04-10,Azure,Microsoft Azure Services,16500,expense,paid
+2026-04-11,Cloudinary,Media Management,5500,expense,paid
+2026-04-11,Firebase,Mobile Backend Services,7200,expense,paid
+2026-04-12,JetBrains,IDE Licenses,24000,expense,paid
+2026-04-12,Visual Studio,Enterprise Subscription,18500,expense,paid
+2026-04-13,Snapdeal,Office Supplies,3200,expense,paid
+2026-04-14,BigBasket,Office Pantry Items,5500,expense,paid
+2026-04-15,Landlord,Office Rent - April,20000,expense,paid
+2026-04-15,Security Agency,Office Security - April,8500,expense,paid
+2026-04-16,Haldiram's,Client Meeting Snacks,1800,expense,paid
+2026-04-16,Cafe Nero,Business Lunch,2400,expense,paid
+2026-04-17,Airtel,Broadband - April,1500,expense,paid
+2026-04-17,Tata Sky,DTH Service,600,expense,paid
+2026-04-18,BESCOM,Electricity - April,4800,expense,paid
+2026-04-18,Water Board,Municipal Water,900,expense,paid
+2026-04-19,Air Asia,Flight to Goa - Team Retreat,24000,expense,paid
+2026-04-19,Resort Booking,Team Retreat Accommodation,65000,expense,paid
+2026-04-20,Event Management,Annual Day Celebration,85000,expense,paid
+2026-04-21,Photography,Event Coverage,15000,expense,paid
+2026-04-21,Catering Service,Event Catering,35000,expense,paid
+2026-04-22,Uber,Local Travel,850,expense,paid
+2026-04-23,McDonald's,Quick Team Lunch,1950,expense,paid
+2026-04-24,Netmeds,Office First Aid Supplies,1200,expense,paid
+2026-04-25,Coursera,AI/ML Training Program,32000,expense,paid
+2026-04-26,Certifications,AWS Certification - Team,45000,expense,paid
+2026-04-27,BookMyShow,Team Movie Outing,6500,expense,paid
+2026-04-28,TechConf Asia,Conference Tickets,55000,expense,paid
+2026-04-29,Freelancer - Karthik,DevOps Consulting,28000,expense,paid
+2026-04-29,Freelancer - Divya,UI Design,15000,expense,paid
+2026-04-30,CA Services,Monthly Bookkeeping,18000,expense,paid
+2026-04-30,PayTech Systems,Payment Integration Project,175000,income,paid
+2026-05-01,GlobalManufacturing,ERP Implementation,425000,income,paid
+2026-05-02,SportsTech,Fitness App Development,155000,income,paid
+2026-05-03,FashionHub,E-commerce Platform,185000,income,unpaid
+2026-05-04,TravelWorld,Booking Management System,165000,income,paid
+2026-05-05,InsureTech,Claims Processing System,245000,income,paid
+2026-05-06,AutoParts Inc,Inventory System,135000,income,paid
+2026-05-07,PropTech Solutions,Virtual Tour Platform,195000,income,unpaid
+2026-05-08,MusicStream,Audio Streaming Service,215000,income,paid
+2026-05-09,BookStore Online,Digital Library Platform,125000,income,paid
+2026-05-10,AWS,AWS Cloud Subscription - May,15200,expense,paid
+2026-05-10,Heroku,App Hosting,8900,expense,paid
+2026-05-11,MongoDB,Database Cluster Upgrade,12000,expense,paid
+2026-05-11,Redis Labs,Cache Service,6500,expense,paid
+2026-05-12,DataDog,Monitoring and Analytics,14500,expense,paid
+2026-05-12,Sentry,Error Tracking,7800,expense,paid
+2026-05-13,PagerDuty,Incident Management,9500,expense,paid
+2026-05-14,Notion,Team Documentation,5200,expense,paid
+2026-05-15,Landlord,Office Rent - May,20000,expense,paid
+2026-05-15,Cleaning Service,Deep Cleaning,3500,expense,paid
+2026-05-16,Subway,Team Lunch,2200,expense,paid
+2026-05-16,Dunkin Donuts,Morning Meeting,1100,expense,paid
+2026-05-17,Airtel,Broadband - May,1500,expense,paid
+2026-05-17,Jio Fiber,Backup Connection,1200,expense,paid
+2026-05-18,BESCOM,Electricity - May,5200,expense,paid
+2026-05-18,Tanker Water,Additional Water Supply,3000,expense,paid
+2026-05-19,Emirates,International Flight - Dubai,45000,expense,paid
+2026-05-19,Atlantis Hotel,Hotel Stay Dubai,85000,expense,paid
+2026-05-20,TechExpo Dubai,Exhibition Stall,125000,expense,paid
+2026-05-21,Marketing Materials,Brochures and Flyers,18000,expense,paid
+2026-05-22,DTDC,International Shipping,2500,expense,paid
+2026-05-23,Swiggy,Office Lunch Orders,2800,expense,paid
+2026-05-24,Zepto,Quick Grocery Delivery,1500,expense,paid
+2026-05-25,LinkedIn,Premium Accounts - Team,35000,expense,paid
+2026-05-26,Indeed,Job Posting Premium,12000,expense,paid
+2026-05-27,Apple,MacBook Pro - New Hire,155000,expense,paid
+2026-05-27,Samsung,Monitors and Accessories,32000,expense,paid
+2026-05-28,Logitech,Webcams and Headsets,18500,expense,paid
+2026-05-29,Freelancer - Rohan,Mobile Development,32000,expense,paid
+2026-05-29,Freelancer - Anjali,Content Strategy,22000,expense,paid
+2026-05-30,IT Audit Firm,System Audit,48000,expense,paid
+2026-05-31,Legal Counsel,IP Protection Filing,35000,expense,paid
+2026-05-31,CloudSmart Systems,Multi-Cloud Strategy,325000,income,paid
+2026-06-01,MegaRetail Chain,Retail Analytics Platform,385000,income,paid
+2026-06-02,GovernTech,Citizen Services Portal,295000,income,unpaid
+2026-06-03,WealthManage,Financial Advisory App,225000,income,paid
+2026-06-04,SmartHome Tech,IoT Home Automation,175000,income,paid
+2026-06-05,PetCare Online,Veterinary Management,145000,income,unpaid
+2026-06-06,EventPro,Event Management Platform,195000,income,paid
+2026-06-07,LegalTech Solutions,Case Management System,265000,income,paid
+2026-06-08,FoodTech Delivery,Restaurant Aggregator,335000,income,paid
+2026-06-09,CryptoVault,Crypto Wallet Development,425000,income,unpaid
+2026-06-10,AWS,AWS Cloud Subscription - June,16500,expense,paid
+2026-06-10,GCP,Google Cloud Platform,14200,expense,paid
+2026-06-11,New Relic,Application Monitoring,12500,expense,paid
+2026-06-11,Elastic Cloud,Search and Analytics,10800,expense,paid
+2026-06-12,Auth0,Authentication Service,9200,expense,paid
+2026-06-12,Okta,Identity Management,15500,expense,paid
+2026-06-13,Docker Hub,Container Registry,4500,expense,paid
+2026-06-14,GitLab,CI/CD Pipeline,18500,expense,paid
+2026-06-15,Landlord,Office Rent - June,20000,expense,paid
+2026-06-15,Pest Control,Office Fumigation,2800,expense,paid
+2026-06-16,KFC,Team Lunch,3200,expense,paid
+2026-06-16,Barista,Coffee Supplies,1800,expense,paid
+2026-06-17,Airtel,Broadband - June,1500,expense,paid
+2026-06-17,BSNL,Landline Service,800,expense,paid
+2026-06-18,BESCOM,Electricity - June,5800,expense,paid
+2026-06-18,Water Supply,Monthly Water Bill,1200,expense,paid
+2026-06-19,Vistara,Flight to Hyderabad,7500,expense,paid
+2026-06-19,ITC Hotel,Business Stay,18000,expense,paid
+2026-06-20,Client Dinner,Business Development,12000,expense,paid
+2026-06-21,Gifts,Corporate Gifting,25000,expense,paid
+2026-06-22,FedEx,Urgent Document Shipping,3500,expense,paid
+2026-06-23,Zomato,Office Dinner Orders,3800,expense,paid
+2026-06-24,Spencer's,Office Supplies,2200,expense,paid
+2026-06-25,Udacity,Nanodegree Program,55000,expense,paid
+2026-06-26,AWS Training,Team Certification,68000,expense,paid
+2026-06-27,Team Building,Outdoor Activities,42000,expense,paid
+2026-06-28,Dell,Server Upgrade,185000,expense,paid
+2026-06-28,Cisco,Network Equipment,95000,expense,paid
+2026-06-29,Freelancer - Vikram,Security Testing,35000,expense,paid
+2026-06-29,Freelancer - Meera,Data Science,42000,expense,paid
+2026-06-30,Chartered Accountant,Tax Planning,28000,expense,paid
+2026-06-30,ComplianceHub,Regulatory Compliance,22000,expense,paid
