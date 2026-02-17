@@ -1,0 +1,27 @@
+# Dinero AI - AI Finance Agent for SMBs
+# Python Dependencies
+
+# Web Framework
+streamlit>=1.28.0
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Visualization
+plotly>=5.18.0
+
+# AI/LLM
+google-generativeai>=0.3.0
+
+# Environment Management
+python-dotenv>=1.0.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Code Quality (Development)
+# black>=23.0.0
+# flake8>=6.0.0
+# mypy>=1.0.0

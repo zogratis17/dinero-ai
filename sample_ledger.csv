@@ -1,0 +1,15 @@
+date,client,description,amount,type,status
+2026-01-01,ABC Corp,Website Project,50000,income,paid
+2026-01-05,DEF Industries,App Development,75000,income,paid
+2026-01-10,XYZ Ltd,Consulting,30000,income,unpaid
+2026-01-12,AWS,AWS Cloud Subscription,12000,expense,paid
+2026-01-13,Zoho,Software Subscription,5000,expense,paid
+2026-01-15,Landlord,Office Rent,20000,expense,paid
+2026-01-16,Team,Team Lunch,2500,expense,paid
+2026-01-17,Airtel,Internet Broadband,1500,expense,paid
+2026-01-18,BESCOM,Electricity Bill,3000,expense,paid
+2026-01-19,MakeMyTrip,Flight to Mumbai,8500,expense,paid
+2026-01-20,XYZ Ltd,Phase 2,25000,income,unpaid
+2026-01-22,Uber,Cab to Client Meeting,450,expense,paid
+2026-01-25,Amazon,Office Supplies,1800,expense,paid
+2026-01-28,GHI Corp,Maintenance Contract,40000,income,unpaid
