@@ -262,7 +262,7 @@ dinero-ai/
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/dinero-ai.git
+   git clone https://github.com/zogratis17/dinero-ai.git
    cd dinero-ai
    ```
 
@@ -1096,7 +1096,7 @@ We welcome contributions from the community! Here's how you can help:
 
 ```bash
 # Fork and clone the repository
-git clone https://github.com/yourusername/dinero-ai.git
+git clone https://github.com/zogratis17/dinero-ai.git
 cd dinero-ai
 
 # Create a feature branch
@@ -1215,12 +1215,18 @@ A: TDS and other compliance features are in the roadmap for v2.0.
 
 ## 👥 Team
 
-**Built for AgentX Hackathon 2026**
+**Team La Espada - Built for AgentX Hackathon 2026**
 
-### Project Maintainers
+### Team Members
 
-- **Primary Developer**: [Your Name/Team Name]
-- **Contributors**: See [Contributors](https://github.com/yourusername/dinero-ai/graphs/contributors)
+- **Hari Prasath N T** ([@zogratis17](https://github.com/zogratis17)) - Lead Developer
+- **Vijesh** ([@vijesh-5](https://github.com/vijesh-5)) - Collaborator
+- **Madhu Shankara G S** ([@madhushankara](https://github.com/madhushankara)) - Collaborator
+- **Velayuthyam V** ([@velayutham-07](https://github.com/velayutham-07)) - Collaborator
+
+### Contributors
+
+See all contributors at [Contributors Graph](https://github.com/zogratis17/dinero-ai/graphs/contributors)
 
 ### Acknowledgments
 
@@ -1262,9 +1268,9 @@ SOFTWARE.
 ### Get Help
 
 - 📖 **Documentation**: Read this README and inline code comments
-- 🐛 **Bug Reports**: [Open an issue](https://github.com/yourusername/dinero-ai/issues)
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/yourusername/dinero-ai/discussions)
-- 📧 **Email**: your.email@example.com (for sensitive matters)
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/zogratis17/dinero-ai/issues)
+- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/zogratis17/dinero-ai/discussions)
+- 📧 **Contact**: Via GitHub Issues or Discussions
 
 ### Community
 
@@ -1300,6 +1306,6 @@ This project was built to address real challenges faced by Indian SMBs in financ
 
 **Made with ❤️ for Indian SMBs**
 
-[⭐ Star on GitHub](https://github.com/yourusername/dinero-ai) • [🐛 Report Bug](https://github.com/yourusername/dinero-ai/issues) • [💡 Request Feature](https://github.com/yourusername/dinero-ai/discussions)
+[⭐ Star on GitHub](https://github.com/zogratis17/dinero-ai) • [🐛 Report Bug](https://github.com/zogratis17/dinero-ai/issues) • [💡 Request Feature](https://github.com/zogratis17/dinero-ai/discussions)
 
 </div>
