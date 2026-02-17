@@ -29,6 +29,25 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger(__name__)
 
 
+def load_gst_knowledge() -> str:
+    """
+    Load GST knowledge base for AI agent context.
+    
+    Returns:
+        GST rules text content, or empty string if file not found
+    """
+    try:
+        knowledge_path = "knowledge/gst_rules.txt"
+        with open(knowledge_path, "r", encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        logger.warning("GST knowledge base file not found. Agent will proceed without GST context.")
+        return ""
+    except Exception as e:
+        logger.error(f"Error loading GST knowledge: {e}")
+        return ""
+
+
 def display_structured_analysis(analysis: str):
     """
     Parse and display AI analysis in a structured format with standardized subsections.
@@ -132,8 +151,9 @@ def main():
     """, unsafe_allow_html=True)
     
     # Initialize AI Agent (with error handling)
+    gst_knowledge = load_gst_knowledge()
     try:
-        agent = DineroAgent()
+        agent = DineroAgent(gst_knowledge=gst_knowledge)
         agent_available = True
     except AIAgentError as e:
         st.warning("⚠️ AI analysis features are currently unavailable. System running in limited mode.")
@@ -168,7 +188,7 @@ def main():
             # GST Classification Engine
             # ----------------------------
             df["gst_category"] = df.apply(
-                lambda row: classify_gst(row["description"]) if row["type"] == "expense" else "",
+                lambda row: classify_gst(row["description"], row["amount"]) if row["type"] == "expense" else "",
                 axis=1
             )
             

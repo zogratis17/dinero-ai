@@ -20,42 +20,81 @@ class TestGSTClassifier:
     
     def test_classify_software_expenses(self):
         """Test classification of software/cloud expenses."""
-        assert "ITC Eligible - Software/Cloud" in classify_gst("AWS Cloud Subscription")
-        assert "ITC Eligible - Software/Cloud" in classify_gst("Zoho Software")
-        assert "ITC Eligible - Software/Cloud" in classify_gst("SaaS tools")
+        assert "ITC Eligible - Software/Cloud" in classify_gst("AWS Cloud Subscription", 12000)
+        assert "ITC Eligible - Software/Cloud" in classify_gst("Zoho Software", 5000)
+        assert "ITC Eligible - Software/Cloud" in classify_gst("SaaS tools", 8000)
+    
+    def test_classify_professional_services(self):
+        """Test classification of professional services."""
+        assert "ITC Eligible - Professional Services" in classify_gst("CA Services", 15000)
+        assert "ITC Eligible - Professional Services" in classify_gst("Legal fees", 10000)
+        assert "ITC Eligible - Professional Services" in classify_gst("Consulting", 25000)
+    
+    def test_classify_capital_goods(self):
+        """Test classification of capital goods."""
+        assert "ITC Eligible - Capital Goods" in classify_gst("Laptop for employee", 65000)
+        assert "ITC Eligible - Capital Goods" in classify_gst("Office furniture", 42000)
+        assert "ITC Eligible - Capital Goods" in classify_gst("Printer and scanner", 18000)
     
     def test_classify_rent(self):
         """Test classification of rent expenses."""
-        assert "ITC Eligible - Rent" in classify_gst("Office Rent")
-        assert "ITC Eligible - Rent" in classify_gst("Monthly rent payment")
+        assert "ITC Eligible - Rent" in classify_gst("Office Rent", 20000)
+        assert "ITC Eligible - Rent" in classify_gst("Monthly rent payment", 25000)
     
     def test_classify_travel(self):
         """Test classification of travel expenses."""
-        assert "Non-Claimable - Travel" in classify_gst("Flight to Mumbai")
-        assert "Non-Claimable - Travel" in classify_gst("Uber ride")
-        assert "Non-Claimable - Travel" in classify_gst("Ola cab")
+        # Hotel and flights are ITC eligible for business travel
+        assert "ITC Eligible - Business Travel" in classify_gst("Hotel Stay Mumbai", 12000)
+        assert "ITC Eligible - Business Travel" in classify_gst("Flight to Delhi", 9500)
+        # Cab/taxi is blocked
+        assert "Blocked Credit - Cab/Taxi" in classify_gst("Uber ride", 850)
+        assert "Blocked Credit - Cab/Taxi" in classify_gst("Ola cab", 680)
     
     def test_classify_meals(self):
         """Test classification of meal expenses."""
-        assert "Blocked Credit - Meals" in classify_gst("Team Lunch")
-        assert "Blocked Credit - Meals" in classify_gst("Client dinner")
-        assert "Blocked Credit - Meals" in classify_gst("Swiggy order")
+        assert "Blocked Credit - Food/Meals" in classify_gst("Team Lunch", 2500)
+        assert "Blocked Credit - Food/Meals" in classify_gst("Client dinner", 3800)
+        assert "Blocked Credit - Food/Meals" in classify_gst("Swiggy order", 1850)
     
     def test_classify_utilities(self):
         """Test classification of utility expenses."""
-        assert "ITC Eligible - Utilities" in classify_gst("Electricity Bill")
-        assert "ITC Eligible - Utilities" in classify_gst("Internet Broadband")
-        assert "ITC Eligible - Utilities" in classify_gst("Phone bill")
+        assert "ITC Eligible - Utilities" in classify_gst("Electricity Bill", 3000)
+        assert "ITC Eligible - Utilities" in classify_gst("Internet Broadband", 1500)
+        assert "ITC Eligible - Utilities" in classify_gst("Phone bill", 2800)
+    
+    def test_classify_maintenance(self):
+        """Test classification of maintenance services."""
+        assert "ITC Eligible - Maintenance" in classify_gst("Office cleaning", 2000)
+        assert "ITC Eligible - Maintenance" in classify_gst("Security services", 8500)
+        assert "ITC Eligible - Maintenance" in classify_gst("Pest control", 2800)
+    
+    def test_classify_training(self):
+        """Test classification of training expenses."""
+        assert "ITC Eligible - Training/Development" in classify_gst("Coursera training", 32000)
+        assert "ITC Eligible - Training/Development" in classify_gst("Certification program", 45000)
+        assert "ITC Eligible - Training/Development" in classify_gst("Workshop registration fee", 15000)
+    
+    def test_classify_marketing(self):
+        """Test classification of marketing expenses."""
+        assert "ITC Eligible - Marketing/Advertising" in classify_gst("Digital marketing campaign", 50000)
+        assert "ITC Eligible - Marketing/Advertising" in classify_gst("Advertising", 25000)
+    
+    def test_classify_gifts_threshold(self):
+        """Test gift classification based on threshold."""
+        # Below threshold - needs review for tracking
+        assert "Review Required" in classify_gst("Corporate gifts", 30000)
+        # Above threshold - blocked
+        assert "Blocked Credit - Gifts" in classify_gst("Executive gifts", 60000)
     
     def test_classify_review_required(self):
         """Test fallback to review required."""
-        assert "Review Required" in classify_gst("Miscellaneous expense")
-        assert "Review Required" in classify_gst("Unknown payment")
+        assert "Review Required" in classify_gst("Random payment", 5000)
+        assert "Review Required" in classify_gst("Miscellaneous item", 3000)
     
     def test_classify_empty_description(self):
         """Test handling of empty/invalid descriptions."""
-        assert "Review Required" in classify_gst("")
-        assert "Review Required" in classify_gst(None)
+        assert "Review Required" in classify_gst("", 1000)
+        assert "Review Required" in classify_gst(None, 1000)
 
 
 class TestFinancialEngine:
@@ -201,22 +240,53 @@ class TestGSTSummary:
         summary = get_gst_summary(df)
         assert summary["total_expenses"] == 0
         assert summary["itc_eligible"] == 0
+        assert summary["itc_health_score"] == 0
+        assert summary["itc_health_status"] == "No Data"
     
     def test_gst_summary_calculation(self):
-        """Test GST summary calculation."""
+        """Test GST summary calculation with health score."""
         df = pd.DataFrame({
-            "amount": [10000, 5000, 2000],
+            "amount": [10000, 5000, 2000, 3000],
             "gst_category": [
                 "ITC Eligible - Software/Cloud",
-                "Blocked Credit - Meals",
-                "Review Required"
+                "Blocked Credit - Food/Meals",
+                "Review Required - Manual Classification Needed",
+                "ITC Eligible - Professional Services"
             ]
         })
         summary = get_gst_summary(df)
-        assert summary["total_expenses"] == 17000
-        assert summary["itc_eligible"] == 10000
+        assert summary["total_expenses"] == 20000
+        assert summary["itc_eligible"] == 13000  # 10000 + 3000
         assert summary["blocked_credit"] == 5000
         assert summary["review_required"] == 2000
+        assert summary["itc_health_score"] == 65.0  # (13000/20000) * 100
+        assert summary["itc_health_status"] == "Good"  # >60%
+    
+    def test_gst_health_status_moderate(self):
+        """Test moderate ITC health status."""
+        df = pd.DataFrame({
+            "amount": [5000, 5000],
+            "gst_category": [
+                "ITC Eligible - Software/Cloud",
+                "Blocked Credit - Food/Meals"
+            ]
+        })
+        summary = get_gst_summary(df)
+        assert summary["itc_health_score"] == 50.0
+        assert summary["itc_health_status"] == "Moderate"
+    
+    def test_gst_health_status_needs_review(self):
+        """Test needs review ITC health status."""
+        df = pd.DataFrame({
+            "amount": [3000, 7000],
+            "gst_category": [
+                "ITC Eligible - Software/Cloud",
+                "Blocked Credit - Food/Meals"
+            ]
+        })
+        summary = get_gst_summary(df)
+        assert summary["itc_health_score"] == 30.0
+        assert summary["itc_health_status"] == "Needs Review"
 
 
 if __name__ == "__main__":

@@ -68,18 +68,39 @@ MAX_API_RETRIES = 3
 API_RETRY_DELAY = 2  # seconds
 
 # ----------------------------
-# GST Categories
+# GST Categories (Expanded)
 # ----------------------------
 GST_CATEGORIES = {
+    # ITC Eligible Categories
     "ITC_ELIGIBLE_SOFTWARE": "ITC Eligible - Software/Cloud",
-    "ITC_ELIGIBLE_RENT": "ITC Eligible - Rent",
+    "ITC_ELIGIBLE_PROFESSIONAL": "ITC Eligible - Professional Services",
+    "ITC_ELIGIBLE_RENT": "ITC Eligible - Rent (Commercial)",
     "ITC_ELIGIBLE_UTILITIES": "ITC Eligible - Utilities",
     "ITC_ELIGIBLE_OFFICE": "ITC Eligible - Office Supplies",
-    "NON_CLAIMABLE_TRAVEL": "Non-Claimable - Travel",
-    "BLOCKED_MEALS": "Blocked Credit - Meals",
+    "ITC_ELIGIBLE_CAPITAL": "ITC Eligible - Capital Goods",
+    "ITC_ELIGIBLE_MAINTENANCE": "ITC Eligible - Maintenance Services",
+    "ITC_ELIGIBLE_MARKETING": "ITC Eligible - Marketing/Advertising",
+    "ITC_ELIGIBLE_TRAVEL": "ITC Eligible - Business Travel",
+    "ITC_ELIGIBLE_TRAINING": "ITC Eligible - Training/Development",
+    "ITC_ELIGIBLE_INSURANCE": "ITC Eligible - Business Insurance",
+    "ITC_ELIGIBLE_BANKING": "ITC Eligible - Payment Services",
+    
+    # Blocked Credit Categories
+    "BLOCKED_MEALS": "Blocked Credit - Food/Meals",
+    "BLOCKED_TRANSPORT": "Blocked Credit - Cab/Taxi",
+    "BLOCKED_EMPLOYEE_BENEFITS": "Blocked Credit - Employee Benefits",
+    "BLOCKED_GIFTS": "Blocked Credit - Gifts (Above Threshold)",
+    
+    # Special Categories
+    "RCM_LIABLE": "Reverse Charge Mechanism",
     "NOT_APPLICABLE_SALARY": "Not Applicable - Salaries",
-    "REVIEW_REQUIRED": "Review Required"
+    "EXEMPT_SUPPLY": "Exempt from GST",
+    "REVIEW_REQUIRED": "Review Required - Manual Classification Needed"
 }
+
+# GST ITC Health Score Thresholds
+GST_ITC_HEALTH_GOOD = 60  # >60% ITC eligible is good
+GST_ITC_HEALTH_MODERATE = 40  # 40-60% is moderate
 
 # ----------------------------
 # Required CSV Columns

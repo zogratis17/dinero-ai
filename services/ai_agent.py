@@ -31,8 +31,11 @@ class DineroAgent:
     Implements guardrails, validation, and responsible AI practices.
     """
     
-    def __init__(self) -> None:
+    def __init__(self, gst_knowledge: str = "") -> None:
         """Initialize the AI agent with configuration.
+        
+        Args:
+            gst_knowledge: Optional GST rules knowledge base for enhanced context
         
         Raises:
             AIAgentError: If GEMINI_API_KEY is not configured
@@ -42,6 +45,7 @@ class DineroAgent:
         
         genai.configure(api_key=GEMINI_API_KEY)
         self.model = genai.GenerativeModel(GEMINI_MODEL)
+        self.gst_knowledge = gst_knowledge
         
         # System prompt for consistent behavior
         self.system_context = """
@@ -395,11 +399,17 @@ class DineroAgent:
                 elif 'Review' in category:
                     gst_stats['review_required'] += amount
         
+        # Prepare GST knowledge section
+        gst_knowledge_section = ""
+        if self.gst_knowledge:
+            gst_knowledge_section = f"GST KNOWLEDGE BASE (Use this for accurate classification and recommendations):\n{self.gst_knowledge}\n\n"
+        
         prompt = f"""
         {self.system_context}
         
         You are analyzing GST STRUCTURE and INPUT TAX CREDIT opportunities for an Indian SMB.
         
+        {gst_knowledge_section}
         GST CLASSIFICATION DATA:
         {gst_context}
         
@@ -410,24 +420,29 @@ class DineroAgent:
         - Items Needing Review: ₹{gst_stats['review_required']:,.0f}
         
         INSTRUCTIONS:
-        Provide detailed GST analysis:
+        Provide detailed GST analysis using the GST knowledge base above:
         
-        1. **Input Tax Credit (ITC) Assessment:**
+        1. **ITC Health Score:**
+           - Calculate and comment on: (ITC Eligible / Total Expenses) × 100
+           - Is it Good (>60%), Moderate (40-60%), or Needs Review (<40%)?
+        
+        2. **Input Tax Credit (ITC) Assessment:**
            - Total ITC eligible amount and its significance
            - What % of total expenses can claim ITC?
            - Ensure timely ITC claiming to improve cash flow
+           - Identify any potential ITC opportunities missed
         
-        2. **Blocked Credit Analysis:**
+        3. **Blocked Credit Analysis:**
            - What expenses have blocked credit and why?
-           - Categories: rent, motor vehicles, food, entertainment, etc.
+           - Categories: food/meals, cab/taxi, employee benefits, etc.
            - Are these expenses necessary despite no ITC benefit?
+           - Any potential restructuring opportunities?
         
-        3. **Non-Claimable Items:**
-           - Items not eligible for GST ITC
-           - Can some be restructured for ITC eligibility?
-        
-        4. **Items Requiring Review:**
-           - Which expenses need CA review for proper classification?
+        4. **Compliance & Risk Flags:**
+           - Are there any expenses that might be misclassified?
+           - Any 180-day payment rule violations possible?
+           - Missing vendor GSTIN risks?
+           - Items that need CA review for proper classification
            - Potential reclassification opportunities
         
         5. **GST Optimization Opportunities:**
