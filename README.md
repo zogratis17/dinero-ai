@@ -32,7 +32,7 @@ Small and Medium Businesses (SMBs) in India face significant challenges in finan
 
 ### 🤖 AI Agent (Reason → Decide → Act)
 
-- Autonomous financial analysis using Google Gemini
+- Autonomous financial analysis using local LLM (Ollama via Flask backend)
 - Pattern detection across multiple months
 - Proactive risk identification and recommendations
 - Auto-generated payment reminder emails
@@ -123,7 +123,7 @@ dinero-ai/
 | Component       | Technology                    |
 | --------------- | ----------------------------- |
 | Frontend        | Streamlit                     |
-| AI/LLM          | Google Gemini 2.5 Flash       |
+| AI/LLM          | Local LLM (Ollama + Flask)    |
 | Data Processing | Pandas, NumPy                 |
 | Visualization   | Plotly                        |
 | Memory          | JSON file-based (lightweight) |
@@ -136,7 +136,8 @@ dinero-ai/
 ### Prerequisites
 
 - Python 3.9 or higher
-- Google Gemini API key
+- Hugging Face API Token (for HF Inference API)
+- LLM backend service running (`backend_llm_api/llm_service.py`)
 
 ### Installation
 
@@ -165,14 +166,23 @@ dinero-ai/
    pip install -r requirements.txt
    ```
 
-4. **Configure environment variables**
+4. **Start the LLM backend**
 
    ```bash
-   # Create .env file
-   echo "GEMINI_API_KEY=your_api_key_here" > .env
+   # In a separate terminal, start the local LLM service
+   cd backend_llm_api
+   pip install flask requests
+   python llm_service.py
    ```
 
-5. **Run the application**
+5. **Configure environment variables**
+
+   ```bash
+   # Create .env file (defaults work for local setup)
+   cp .env.example .env
+   ```
+
+6. **Run the application**
    ```bash
    streamlit run app.py
    ```
@@ -425,7 +435,8 @@ pytest tests/ --cov=services --cov=utils --cov=database
 2. Connect repository to [Streamlit Cloud](https://streamlit.io/cloud)
 3. Add secrets in Streamlit dashboard:
    ```toml
-   GEMINI_API_KEY = "your_api_key"
+   LLM_API_URL = "http://your-llm-backend:8000"
+   LLM_API_KEY = "your_api_key"
    USE_DATABASE = "false"
    ```
 4. Deploy!
@@ -465,7 +476,8 @@ docker run -p 8501:8501 \
    ```bash
    export USE_DATABASE=true
    export DATABASE_URL=postgresql://user:pass@prod-db:5432/dinero_ai
-   export GEMINI_API_KEY=your_key
+   export LLM_API_URL=http://localhost:8000
+   export LLM_API_KEY=your_api_key
    ```
 
 3. **Run Migrations**

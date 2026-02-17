@@ -1,18 +1,21 @@
 """
 AI Agent Service - Handles all LLM interactions with proper error handling and guardrails.
 Implements responsible AI practices including validation, retries, and output sanitization.
+
+Uses the local LLM backend API (Flask → Ollama) instead of a cloud-hosted LLM.
 """
-import google.generativeai as genai
+import requests
 import time
 import json
 import re
 import logging
 from typing import Optional, Dict, Any
 from config.settings import (
-    GEMINI_API_KEY, 
-    GEMINI_MODEL, 
-    MAX_API_RETRIES, 
-    API_RETRY_DELAY
+    LLM_API_URL,
+    LLM_API_KEY,
+    MAX_API_RETRIES,
+    API_RETRY_DELAY,
+    LLM_REQUEST_TIMEOUT
 )
 
 # Configure logging
@@ -29,19 +32,48 @@ class DineroAgent:
     """
     AI Agent for financial analysis and recommendations.
     Implements guardrails, validation, and responsible AI practices.
+    
+    Connects to the local LLM backend API (Ollama via Flask service).
     """
     
     def __init__(self) -> None:
         """Initialize the AI agent with configuration.
         
         Raises:
-            AIAgentError: If GEMINI_API_KEY is not configured
+            AIAgentError: If LLM backend API is not reachable
         """
-        if not GEMINI_API_KEY:
-            raise AIAgentError("GEMINI_API_KEY not found in environment variables. Please set it in .env file.")
+        if not LLM_API_URL:
+            raise AIAgentError(
+                "LLM_API_URL not configured. Please set it in your .env file. "
+                "Default: http://localhost:8000"
+            )
         
-        genai.configure(api_key=GEMINI_API_KEY)
-        self.model = genai.GenerativeModel(GEMINI_MODEL)
+        self.api_url = LLM_API_URL.rstrip("/")
+        self.generate_url = f"{self.api_url}/generate"
+        self.headers = {
+            "Content-Type": "application/json",
+            "x-api-key": LLM_API_KEY or ""
+        }
+        self.timeout = LLM_REQUEST_TIMEOUT
+        
+        # Verify backend is reachable
+        try:
+            health_resp = requests.get(
+                f"{self.api_url}/health", 
+                timeout=5
+            )
+            if health_resp.status_code != 200:
+                logger.warning(
+                    f"LLM backend health check returned status {health_resp.status_code}. "
+                    "AI features may be unreliable."
+                )
+        except requests.exceptions.ConnectionError:
+            raise AIAgentError(
+                f"Cannot connect to LLM backend at {self.api_url}. "
+                "Please ensure the backend service (llm_service.py) is running."
+            )
+        except Exception as e:
+            logger.warning(f"LLM backend health check failed: {e}. Proceeding anyway.")
         
         # System prompt for consistent behavior
         self.system_context = """
@@ -105,7 +137,7 @@ class DineroAgent:
     
     def _call_with_retry(self, prompt: str) -> str:
         """
-        Call the AI model with retry logic.
+        Call the local LLM backend API with retry logic.
         
         Args:
             prompt: The prompt to send
@@ -120,19 +152,60 @@ class DineroAgent:
         
         for attempt in range(MAX_API_RETRIES):
             try:
-                response = self.model.generate_content(prompt)
+                payload = {"prompt": prompt}
                 
-                if response and response.text:
-                    return response.text
+                response = requests.post(
+                    self.generate_url,
+                    json=payload,
+                    headers=self.headers,
+                    timeout=self.timeout
+                )
+                
+                if response.status_code == 401:
+                    raise AIAgentError(
+                        "Invalid API key for LLM backend. "
+                        "Check LLM_API_KEY in your .env file."
+                    )
+                
+                if response.status_code != 200:
+                    error_detail = response.text
+                    raise AIAgentError(
+                        f"LLM backend returned status {response.status_code}: {error_detail}"
+                    )
+                
+                result = response.json()
+                
+                # Ollama returns the response in a "response" field
+                text = result.get("response", "")
+                
+                if text:
+                    return text
                 else:
-                    raise AIAgentError("Empty response from AI model")
+                    raise AIAgentError("Empty response from LLM backend")
                     
+            except requests.exceptions.ConnectionError as e:
+                last_error = AIAgentError(
+                    f"Cannot connect to LLM backend at {self.generate_url}. "
+                    "Is the service running?"
+                )
+                logger.warning(f"API call attempt {attempt + 1} failed: connection error")
+                
+            except requests.exceptions.Timeout as e:
+                last_error = AIAgentError(
+                    f"LLM backend request timed out after {self.timeout}s. "
+                    "The model may be under heavy load."
+                )
+                logger.warning(f"API call attempt {attempt + 1} failed: timeout")
+                
+            except AIAgentError:
+                raise  # Don't retry auth errors
+                
             except Exception as e:
                 last_error = e
                 logger.warning(f"API call attempt {attempt + 1} failed: {str(e)}")
-                
-                if attempt < MAX_API_RETRIES - 1:
-                    time.sleep(API_RETRY_DELAY * (attempt + 1))  # Exponential backoff
+            
+            if attempt < MAX_API_RETRIES - 1:
+                time.sleep(API_RETRY_DELAY * (attempt + 1))  # Exponential backoff
         
         raise AIAgentError(f"Failed after {MAX_API_RETRIES} attempts: {str(last_error)}")
     

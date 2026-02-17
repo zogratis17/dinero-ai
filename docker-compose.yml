@@ -15,7 +15,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U dinero_user -d dinero_ai"]
+      test: [ "CMD-SHELL", "pg_isready -U dinero_user -d dinero_ai" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -33,7 +33,9 @@ services:
     ports:
       - "8501:8501"
     environment:
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - LLM_API_URL=${LLM_API_URL:-http://host.docker.internal:8000}
+      - LLM_API_KEY=${LLM_API_KEY:-prod_secret_key_123}
+      - LLM_REQUEST_TIMEOUT=${LLM_REQUEST_TIMEOUT:-120}
       - USE_DATABASE=true
       - DATABASE_URL=postgresql://dinero_user:dinero_pass@postgres:5432/dinero_ai
       - DB_POOL_SIZE=5
@@ -42,7 +44,7 @@ services:
       - ./memory:/app/memory
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8501/_stcore/health" ]
       interval: 30s
       timeout: 10s
       retries: 3

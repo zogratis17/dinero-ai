@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Chat Interface</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max_width: 800px; margin: 0 auto; padding: 20px; background: #f4f4f9; }
+        .chat-container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); height: 60vh; overflow-y: auto; margin-bottom: 20px; }
+        .message { margin: 10px 0; padding: 10px 15px; border-radius: 15px; max-width: 80%; }
+        .user { background: #007bff; color: white; align-self: flex-end; margin-left: auto; }
+        .bot { background: #e9ecef; color: #333; margin-right: auto; }
+        .input-area { display: flex; gap: 10px; }
+        input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        button { padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:disabled { background: #ccc; }
+        .config { margin-bottom: 20px; padding: 15px; background: #fff; border-radius: 8px; font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>Local LLM Interface</h1>
+    <div class="config">
+        <strong>Backend Config:</strong> 
+        URL: <code id="apiUrl">http://localhost:8000/generate</code> | 
+        Key: <code id="apiKey">prod_secret_key_123</code>
+    </div>
+
+    <div class="chat-container" id="chat">
+        <div class="message bot">Hello! I am connected to your local LLM backend. Ask me about finance!</div>
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type your prompt..." onkeypress="handleEnter(event)">
+        <button onclick="sendMessage()" id="sendBtn">Send</button>
+    </div>
+
+    <script>
+        // Configuration
+        const API_URL = "http://localhost:8000/generate";
+        const API_KEY = "prod_secret_key_123";
+        
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const btn = document.getElementById('sendBtn');
+            const chat = document.getElementById('chat');
+            const prompt = input.value.trim();
+            
+            if (!prompt) return;
+
+            // User Message
+            appendMessage(prompt, 'user');
+            input.value = '';
+            input.disabled = true;
+            btn.disabled = true;
+
+            // Loading state
+            const loadingId = appendMessage('Thinking...', 'bot');
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': API_KEY
+                    },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                const data = await response.json();
+                
+                // Remove loading message
+                document.getElementById(loadingId).remove();
+                
+                if (response.ok) {
+                    appendMessage(data.response || data.detail || JSON.stringify(data), 'bot');
+                } else {
+                    appendMessage('Error: ' + (data.detail || response.statusText), 'bot');
+                }
+            } catch (err) {
+                document.getElementById(loadingId).remove();
+                appendMessage('Connection Error: Is the backend running on port 8000?', 'bot');
+                console.error(err);
+            } finally {
+                input.disabled = false;
+                btn.disabled = false;
+                input.focus();
+            }
+        }
+
+        function appendMessage(text, className) {
+            const chat = document.getElementById('chat');
+            const div = document.createElement('div');
+            div.className = `message ${className}`;
+            div.textContent = text;
+            div.id = 'msg-' + Date.now();
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+            return div.id;
+        }
+    </script>
+</body>
+</html>

@@ -8,20 +8,10 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Validate critical configuration
-if not os.getenv("GEMINI_API_KEY") and os.getenv("USE_OLLAMA", "false").lower() != "true":
-    import warnings
-    warnings.warn(
-        "GEMINI_API_KEY not found in environment. AI features will be unavailable. "
-        "Please add GEMINI_API_KEY to your .env file or set USE_OLLAMA=true.",
-        UserWarning
-    )
-
 # ----------------------------
 # Feature Flags
 # ----------------------------
 USE_DATABASE = os.getenv("USE_DATABASE", "false").lower() == "true"
-USE_OLLAMA = os.getenv("USE_OLLAMA", "false").lower() == "true"
 
 # ----------------------------
 # Database Configuration
@@ -38,15 +28,16 @@ DB_POOL_TIMEOUT = int(os.getenv("DB_POOL_TIMEOUT", "30"))
 DB_ECHO = os.getenv("DB_ECHO", "false").lower() == "true"
 
 # ----------------------------
-# AI Configuration
+# AI Configuration (Local LLM Backend)
 # ----------------------------
-# Google Gemini (Default)
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_MODEL = "models/gemini-2.5-flash"
+# URL of the Flask LLM service (backend_llm_api/llm_service.py)
+LLM_API_URL = os.getenv("LLM_API_URL", "http://localhost:8000")
 
-# Ollama (Alternative)
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama2")
+# API key for authenticating with the LLM backend
+LLM_API_KEY = os.getenv("LLM_API_KEY", "prod_secret_key_123")
+
+# Request timeout for LLM calls (seconds) — local models can be slow
+LLM_REQUEST_TIMEOUT = int(os.getenv("LLM_REQUEST_TIMEOUT", "120"))
 
 # ----------------------------
 # File Paths (Legacy JSON Storage)
