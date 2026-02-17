@@ -10,6 +10,12 @@ numpy>=1.24.0
 
 # Visualization
 plotly>=5.18.0
+matplotlib>=3.7.0
+kaleido>=0.2.1
+
+# PDF Generation
+reportlab>=4.0.0
+pillow>=10.0.0
 
 # AI/LLM
 google-generativeai>=0.3.0

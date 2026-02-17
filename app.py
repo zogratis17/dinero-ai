@@ -22,6 +22,7 @@ from utils.memory import load_memory, save_memory, get_recent_history, format_hi
 from utils.validators import validate_ledger, clean_dataframe, sanitize_text_input, validate_month_label
 from utils.time_periods import segment_by_period, get_period_metrics, compare_periods, get_available_periods, format_period_label
 from utils.enhanced_memory import save_period_data, load_period_data, get_all_periods, auto_save_periods, get_financial_context, ensure_memory_dirs
+from utils.pdf_generator import create_monthly_pdf_report
 import re
 
 # Configure logging
@@ -441,7 +442,7 @@ def main():
                 # GST Summary metrics
                 col_itc, col_blocked, col_review = st.columns(3)
                 col_itc.metric("ITC Eligible", f"₹{gst_stats['itc_eligible']:,.0f}")
-                col_blocked.metric("Blocked/Non-Claimable", f"₹{gst_stats['blocked_credit'] + gst_stats['non_claimable']:,.0f}")
+                col_blocked.metric("Blocked/Non-Claimable", f"₹{gst_stats['blocked_credit'] + gst_stats['non_applicable']:,.0f}")
                 col_review.metric("Needs Review", f"₹{gst_stats['review_required']:,.0f}")
                 
                 if not gst_summary.empty:
@@ -460,16 +461,77 @@ def main():
                 st.subheader("📈 Financial Trends & History")
                 
                 # Time period selector
-                period_type = st.selectbox(
-                    "View by:",
-                    options=["Month", "Week", "Day", "Year"],
-                    index=0
-                )
+                col_period_select, col_pdf_download = st.columns([3, 1])
+                
+                with col_period_select:
+                    period_type = st.selectbox(
+                        "View by:",
+                        options=["Month", "Week", "Day", "Year"],
+                        index=0
+                    )
                 
                 period_type_key = period_type.lower()
                 
                 # Get saved periods
                 all_periods = get_all_periods(period_type_key)
+                
+                # PDF Download Button
+                with col_pdf_download:
+                    if all_periods and period_type_key == 'month':
+                        st.write("")
+                        selected_period = st.selectbox(
+                            "Select Period:",
+                            options=[p['period'] for p in all_periods],
+                            index=len(all_periods)-1,
+                            key="pdf_period_select"
+                        )
+                        
+                        # Get selected period data
+                        period_data = next((p for p in all_periods if p['period'] == selected_period), None)
+                        
+                        if period_data:
+                            # Get GST data for the selected period if available
+                            gst_stats = None
+                            if not df[df["type"] == "expense"].empty:
+                                gst_df = classify_gst(df[df["type"] == "expense"])
+                                gst_stats = get_gst_summary(gst_df)
+                            
+                            # Generate PDF
+                            try:
+                                pdf_buffer = create_monthly_pdf_report(
+                                    period_label=selected_period,
+                                    metrics={
+                                        'revenue': period_data.get('revenue', 0),
+                                        'expenses': period_data.get('expenses', 0),
+                                        'profit': period_data.get('profit', 0),
+                                        'profit_margin': period_data.get('profit_margin', 0),
+                                        'receivables': period_data.get('receivables', 0),
+                                        'receivables_ratio': period_data.get('receivables_ratio', 0),
+                                        'top_client_name': period_data.get('top_client_name', 'N/A'),
+                                        'top_client_share': period_data.get('top_client_share', 0)
+                                    },
+                                    health={
+                                        'score': period_data.get('health_score', 0),
+                                        'status': 'healthy' if period_data.get('health_score', 0) >= 80 else 'moderate' if period_data.get('health_score', 0) >= 60 else 'critical',
+                                        'risks': []
+                                    },
+                                    periods_df=pd.DataFrame(all_periods),
+                                    gst_stats=gst_stats
+                                )
+                                
+                                st.download_button(
+                                    label="📄 Download PDF",
+                                    data=pdf_buffer,
+                                    file_name=f"financial_statement_{selected_period}.pdf",
+                                    mime="application/pdf",
+                                    use_container_width=True,
+                                    type="primary"
+                                )
+                            except Exception as e:
+                                logger.error(f"PDF generation error: {str(e)}")
+                                st.error(f"⚠️ PDF generation unavailable. Install required packages: pip install reportlab kaleido")
+                    elif all_periods and period_type_key != 'month':
+                        st.info("📄 PDF download available for Monthly view only")
                 
                 if all_periods:
                     # Convert to DataFrame for visualization

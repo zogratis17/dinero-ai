@@ -381,7 +381,7 @@ class DineroAgent:
         gst_stats = {
             'itc_eligible': 0,
             'blocked_credit': 0,
-            'non_claimable': 0,
+            'non_applicable': 0,
             'review_required': 0
         }
         
@@ -394,8 +394,8 @@ class DineroAgent:
                     gst_stats['itc_eligible'] += amount
                 elif 'Blocked Credit' in category:
                     gst_stats['blocked_credit'] += amount
-                elif 'Non-Claimable' in category:
-                    gst_stats['non_claimable'] += amount
+                elif 'Non-Applicable' in category or 'Exempt' in category:
+                    gst_stats['non_applicable'] += amount
                 elif 'Review' in category:
                     gst_stats['review_required'] += amount
         
@@ -416,7 +416,7 @@ class DineroAgent:
         GST SUMMARY STATISTICS:
         - ITC Eligible Expenses: ₹{gst_stats['itc_eligible']:,.0f}
         - Blocked Credit Items: ₹{gst_stats['blocked_credit']:,.0f}
-        - Non-Claimable Items: ₹{gst_stats['non_claimable']:,.0f}
+        - Non-Applicable Items: ₹{gst_stats['non_applicable']:,.0f}
         - Items Needing Review: ₹{gst_stats['review_required']:,.0f}
         
         INSTRUCTIONS:
