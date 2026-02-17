@@ -14,6 +14,12 @@ plotly>=5.18.0
 # AI/LLM
 google-generativeai>=0.3.0
 
+# Gmail Integration
+google-auth>=2.16.0
+google-auth-oauthlib>=1.0.0
+google-auth-httplib2>=0.1.0
+google-api-python-client>=2.80.0
+
 # Database (PostgreSQL)
 sqlalchemy>=2.0.0
 psycopg2-binary>=2.9.9

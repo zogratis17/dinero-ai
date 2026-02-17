@@ -3,6 +3,10 @@
 .env.local
 .env.*.local
 
+# Gmail OAuth Credentials
+credentials.json
+token.json
+
 # Python
 __pycache__/
 *.py[cod]
