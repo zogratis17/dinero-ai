@@ -14,6 +14,11 @@ plotly>=5.18.0
 # AI/LLM
 google-generativeai>=0.3.0
 
+# Database (PostgreSQL)
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.9
+alembic>=1.12.0
+
 # Environment Management
 python-dotenv>=1.0.0
 
