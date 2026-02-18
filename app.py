@@ -493,7 +493,7 @@ def main():
                             # Get GST data for the selected period if available
                             gst_stats = None
                             if not df[df["type"] == "expense"].empty:
-                                gst_df = classify_gst(df[df["type"] == "expense"])
+                                gst_df = df[df["type"] == "expense"]
                                 gst_stats = get_gst_summary(gst_df)
                             
                             # Generate PDF
